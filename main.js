@@ -5,28 +5,17 @@ function rowConverter(row) {
     app_name: row.app_name,
     downloads: parseInt(row.downloads),
     average_rating: parseFloat(row.average_rating),
-    thirty_day_keep: parseFloat(row.thirty_day_keep)
+    thirty_day_keep: parseFloat(row.thirty_day_keep),
   }
 }
 
-//measure size of titles
-//https://stackoverflow.com/questions/14605348/title-and-axis-labels
-function measure(text, chart){
-  if(!text || text.length === 0) return {height:0, width:0};
 
-  var container = d3.select(chart)
-    .append('text').attr({x:-1000, y:1000}).text(text);
 
-  var bbox = container.node().getBBox();
-  container.remove();
-
-  return {height: bbox.height, width: bbox,width};
-}
-
+///////////// CHART 1 ////////////////////////////////////////////////////////////////////////////
 function makeChart1(dataset) {
 
-  let w = 500;
-  let h = 500;
+  let w = 400;
+  let h = 400;
 
   // sort the data by downloads
   // uses built-in Array.sort() with comparator function
@@ -71,7 +60,8 @@ function makeChart1(dataset) {
     .attr('y', (d) => yScale(d.app_name))
     .attr('width', (d) => xScale(d.downloads))
     .attr('height', barWidth)
-    .attr('fill', (d) => colorScale(d.average_rating));
+    .attr('fill', (d) => colorScale(d.average_rating))
+    .attr('id', (d) => d.app_name);
 
   // AXES
   chart1.append('g')
@@ -82,7 +72,7 @@ function makeChart1(dataset) {
   chart1.append('g')
     .attr('class', 'axis')
     .attr('class', 'graph1_y')
-    .attr('transform', `translate(55, 0)`)
+    .attr('transform', `translate(55, -2)`)
     .call(yAxis);
 
   //Chart titles
@@ -95,15 +85,16 @@ function makeChart1(dataset) {
     .text("Number of Downloads Per App");
 }
 
+///////////// CHART 2 ////////////////////////////////////////////////////////////////////////////
 function makeChart2(dataset) {
-  let w = 500;
-  let h = 500;
+  let w = 400;
+  let h = 400;
 
   // sort the data by downloads
   // uses built-in Array.sort() with comparator function
   dataset.sort((a,b) => b.average_rating - a.average_rating);
 
-  let chart1 = d3.select('#chart2')
+  let chart2 = d3.select('#chart2')
     .attr('width', w)
     .attr('height', h);
 
@@ -132,9 +123,9 @@ function makeChart2(dataset) {
   // d3 allows scaling between colors
   let colorScale = d3.scaleLinear()
     .domain([4.5, 5])
-    .range(['#c9df8a', '#74d600']);
+    .range(['#BDFCC9', '#32CD32']);
 
-  chart1.selectAll('rect')
+  chart2.selectAll('rect')
     .data(dataset)
     .enter()
     .append('rect')
@@ -142,39 +133,41 @@ function makeChart2(dataset) {
     .attr('y', (d) => yScale(d.app_name))
     .attr('width', (d) => xScale(d.average_rating))
     .attr('height', barWidth)
-    .attr('fill', (d) => colorScale(d.average_rating));
+    .attr('fill', (d) => colorScale(d.average_rating))
+    .attr('id', (d) => d.app_name);
 
   // AXES
-  chart1.append('g')
+  chart2.append('g')
     .attr('class', 'axis')
     .attr('transform', `translate(40, ${h - 20})`)
     .call(xAxis);
 
-  chart1.append('g')
+  chart2.append('g')
     .attr('class', 'axis')
     .attr('class', 'graph1_y')
-    .attr('transform', `translate(55, 0)`)
+    .attr('transform', `translate(55, -2)`)
     .call(yAxis);
 
   //Chart titles
   //https://stackoverflow.com/questions/14605348/title-and-axis-labels
   //Create title 
-  chart1.append("text")
+  chart2.append("text")
     .attr("x", w / 2 )
     .attr("y", 12)
     .style("text-anchor", "middle")
     .text("Average Rating Per App");
 }
 
+///////////// CHART 3 ////////////////////////////////////////////////////////////////////////////
 function makeChart3(dataset) {
-  let w = 500;
-  let h = 500;
+  let w = 400;
+  let h = 400;
 
   // sort the data by downloads
   // uses built-in Array.sort() with comparator function
   dataset.sort((a,b) => b.thirty_day_keep - a.thirty_day_keep);
 
-  let chart1 = d3.select('#chart3')
+  let chart3 = d3.select('#chart3')
     .attr('width', w)
     .attr('height', h);
 
@@ -194,7 +187,8 @@ function makeChart3(dataset) {
     .rangeRound([20, h - 20]);
 
   let xAxis = d3.axisBottom(xScale)
-    .ticks(5);
+    .ticks(5)
+    .tickFormat(d => d + "%");
   let yAxis = d3.axisLeft(yScale);
 
   //responsive bar width
@@ -203,9 +197,9 @@ function makeChart3(dataset) {
   // d3 allows scaling between colors
   let colorScale = d3.scaleLinear()
     .domain([4.5, 5])
-    .range(['#c9df8a', '#74d600']);
+    .range(['#CCFFCC', '#00FF00']);
 
-  chart1.selectAll('rect')
+  chart3.selectAll('rect')
     .data(dataset)
     .enter()
     .append('rect')
@@ -213,34 +207,157 @@ function makeChart3(dataset) {
     .attr('y', (d) => yScale(d.app_name))
     .attr('width', (d) => xScale(d.thirty_day_keep))
     .attr('height', barWidth)
-    .attr('fill', (d) => colorScale(d.average_rating));
+    .attr('fill', (d) => colorScale(d.average_rating))
+    .attr('id', (d) => d.app_name);
 
   // AXES
-  chart1.append('g')
+  chart3.append('g')
     .attr('class', 'axis')
     .attr('transform', `translate(40, ${h - 20})`)
     .call(xAxis);
 
-  chart1.append('g')
+  chart3.append('g')
     .attr('class', 'axis')
     .attr('class', 'graph1_y')
-    .attr('transform', `translate(55, 0)`)
+    .attr('transform', `translate(55, -2)`)
     .call(yAxis);
 
   //Chart titles
   //https://stackoverflow.com/questions/14605348/title-and-axis-labels
   //Create title 
-  chart1.append("text")
+  chart3.append("text")
     .attr("x", w / 2 )
     .attr("y", 12)
     .style("text-anchor", "middle")
-    .text("Percentage of Users With App Still Installed After 30 Days");
+    .text("% of Users With App Still Installed After 30 Days");
 }
 
+///////////// CHART 4 ////////////////////////////////////////////////////////////////////////////
 function makeChart4(dataset) {
+  let w = 620;
+  let h = 450;
+
+  let xScale = d3.scaleLinear()
+    .domain([d3.min(dataset, (d) => d.downloads) - 100000, d3.max(dataset, (d) => d.downloads) + 100000])
+    .rangeRound([40, w -15]);
+
+  let yScale = d3.scaleLinear()
+    .domain([5, d3.min(dataset, (d) => d.average_rating)])
+    .rangeRound([20, h-20]);
+  
+  let rScale = d3.scaleSqrt()
+    .domain([0, d3.max(dataset, (d) => d.average_rating)])
+    .range([1,5]);
+
+  let xAxis = d3.axisBottom(xScale);
+
+  let yAxis = d3.axisLeft(yScale)
+    .ticks(5);
+
+  let chart4 = d3.select('#chart4')
+    .attr('width', w)
+    .attr('height', h);
+
+  chart4.selectAll('circle')
+    .data(dataset)
+    .enter()
+    .append('circle')
+    .attr('cx', (d) => xScale(d.downloads))
+    .attr('cy', (d) => yScale(d.average_rating))
+    .attr('fill', 'green')
+    .attr('r', (d) => rScale(d.average_rating))
+    .attr('id', (d) => d.app_name);
+
+  chart4.selectAll('text')
+    .data(dataset)
+    .enter()
+    .append('text')
+    .attr('text-anchor', 'middle')
+    .attr('font-size', 10)
+    .attr('x', (d) => xScale(d.downloads))
+    .attr('y', (d) => yScale(d.average_rating) - 8)
+    .text((d) => d.app_name); 
+
+  chart4.append('g')
+    .attr('class', 'axis')
+    .attr('transform', `translate(0, ${h - 12})`)
+    .call(xAxis);
+
+  chart4.append('g')
+    .attr('class', 'axis')
+    .attr('transform', `translate(40, 0)`)
+    .call(yAxis);
+
+  chart4.append("text")
+    .attr("x", w / 2 )
+    .attr("y", 5)
+    .style("text-anchor", "middle")
+    .text("Average Rating vs. Downloads");
+
 }
 
+///////////// CHART 5 ////////////////////////////////////////////////////////////////////////////
 function makeChart5(dataset) {
+  let w = 620;
+  let h = 450;
+
+  let xScale = d3.scaleLinear()
+    .domain([d3.min(dataset, (d) => d.downloads) - 100000, d3.max(dataset, (d) => d.downloads) + 100000])
+    .rangeRound([40, w -15]);
+
+  let yScale = d3.scaleLinear()
+    .domain([d3.max(dataset, (d) => d.thirty_day_keep) + 5, d3.min(dataset, (d) => d.thirty_day_keep)])
+    .rangeRound([20, h-20]);
+  
+  let rScale = d3.scaleSqrt()
+    .domain([0, d3.max(dataset, (d) => d.thirty_day_keep)])
+    .range([1,5]);
+
+  let xAxis = d3.axisBottom(xScale);
+
+  let yAxis = d3.axisLeft(yScale)
+    .ticks(5)
+    .tickFormat(d => d + "%");
+
+  let chart5 = d3.select('#chart5')
+    .attr('width', w)
+    .attr('height', h);
+
+  chart5.selectAll('circle')
+    .data(dataset)
+    .enter()
+    .append('circle')
+    .attr('cx', (d) => xScale(d.downloads))
+    .attr('cy', (d) => yScale(d.thirty_day_keep))
+    .attr('fill', 'limegreen')
+    .attr('r', (d) => rScale(d.thirty_day_keep))
+    .attr('id', (d) => d.app_name);
+
+  chart5.selectAll('text')
+    .data(dataset)
+    .enter()
+    .append('text')
+    .attr('text-anchor', 'middle')
+    .attr('font-size', 10)
+    .attr('x', (d) => xScale(d.downloads))
+    .attr('y', (d) => yScale(d.thirty_day_keep) - 8)
+    .text((d) => d.app_name); 
+
+  chart5.append('g')
+    .attr('class', 'axis')
+    .attr('transform', `translate(0, ${h - 12})`)
+    .call(xAxis);
+
+  chart5.append('g')
+    .attr('class', 'axis')
+    .attr('transform', `translate(40, 0)`)
+    .call(yAxis);
+
+  chart5.append("text")
+    .attr("x", w / 2 )
+    .attr("y", 5)
+    .style("text-anchor", "middle")
+    .text("30 Day Retention vs. Downloads");
 }
 
 window.onload = function () {

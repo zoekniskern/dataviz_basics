@@ -20,33 +20,33 @@ This one is mostly pre-done but needs cleaning up.
 Chart 2 (Horizontal Bar Chart: Average Rating)
 
 1. Implement makeChart2() using makeChart1() as a template.
-    ()Use a different set of colors and sort by average_rating.
+    (DONE)Use a different set of colors and sort by average_rating.
 
 //////////////////////////////////////////////
 Chart 3 (Horizontal Bar Chart: 30 Day Retention)
 
 1. Implement makeChart3() using makeChart1() as a template. 
-    ()Use a different set of colors and sort by thirty_day_keep. 
-    ()Use tickFormat() for the x-axis with percentage formatting (see "Formatting Tick Labels" near the end of Chapter 8 in the book for reference).
+    (DONE)Use a different set of colors and sort by thirty_day_keep. 
+    (DONE)Use tickFormat() for the x-axis with percentage formatting (see "Formatting Tick Labels" near the end of Chapter 8 in the book for reference).
 
 //////////////////////////////////////////////
 Chart 4 (Scatter Chart: Downloads/Rating)
 
 1. Make a scatterplot using downloads as the x-axis and rating as the y-axis. 
-    ()The chart should have x- and y- axes
-    ()Use circles, and the circles should have r-attributes that scale properly for area. (See Class 3.3 example code regarding .scaleSqrt()). 
-    ()Make the circle area scale with rating.
-    ()Label the dots using the app_name.
+    (DONE)The chart should have x- and y- axes
+    (DONE)Use circles, and the circles should have r-attributes that scale properly for area. (See Class 3.3 example code regarding .scaleSqrt()). 
+    (DONE)Make the circle area scale with rating.
+    (DONE)Label the dots using the app_name.
 
 //////////////////////////////////////////////
 Chart 5 (Scatter Chart: Downloads/30 Day Retention)
 
 1. Make a scatterplot using downloads as the x-axis and 30 day retention as the y-axis. 
-    ()The chart should have x- and y- axes
-    ()Use circles, and the circles should have r-attributes that scale properly for area. (See Class 3.3 example code regarding .scaleSqrt()
-    ()Make the circle area scale with retention
-    ()Label the dots using the app_name
-    ()Use percentage formatting for the x-axis tickFormat().
+    (DONE)The chart should have x- and y- axes
+    (DONE)Use circles, and the circles should have r-attributes that scale properly for area. (See Class 3.3 example code regarding .scaleSqrt()
+    (DONE)Make the circle area scale with retention
+    (DONE)Label the dots using the app_name
+    (DONE)Use percentage formatting for the x-axis tickFormat().
 
 //////////////////////////////////////////////
 Storytelling
